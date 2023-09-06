@@ -1,0 +1,276 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}CartiQue | Biggest Shoping Website in India.{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        {% block css %}
+        {% endblock %}
+        <link rel="stylesheet" href="{% static 'product.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Festive&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        {% block style %}
+        <style>
+            
+            .purchases-tag {
+                position: absolute;
+                background: #fff;
+                padding: 3px;
+                border-radius: 5px;
+                color: #ff7d7d;
+                left: 8px;
+                top: 8px;
+                text-transform: capitalize;
+                transition: 0.5s;
+                font-family: 'Roboto', sans-serif;
+                font-size: smaller;
+            }
+            
+            .purchases-tag:hover {
+                background: #ff7d7d;
+                color: #fff;
+            }
+
+            .product-card {
+                height: 415px;
+            }
+
+            .product-cards-container {
+                height: 415px;
+            }
+        </style>
+        {% endblock %}
+    </head>
+
+    <body>
+        
+        {% include 'navbar.html' %}
+
+        {% block content %} 
+
+        <header class="header">
+            <div class="content">
+                <div class="inner-content">CartiQue</div>
+                <p class="content-info">Best Fashion Collection of All Time.</p>
+            </div>
+        </header>
+
+        <section class="product">
+            <h2 class="product-category">Trending</h2>
+            <button class="pre-btn"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <button class="nxt-btn"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <div class="product-cards-container">
+                {% for product in products %}
+
+                <div class="product-card">
+                    <div class="product-image">
+                        
+                        {% if product.discount > 0 %}
+                            <span class="discount-tag">{{product.discount}}% off</span>
+                        {% endif %}
+                        <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                        
+
+                        {% if user.is_authenticated %}
+                            {% if product not in wishlist_products %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                            {% else %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                        <p class="product-short-des">{{product.type}}'s {{product.category}}</p>
+
+                        {% if product.discount == 0 %}
+                        <span class="price" style="text-decoration: none;"><span>&#8377;</span>{{product.price}}</span>
+                        {% else %}
+                        <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.final_price}}</span>
+                        {% endif %}
+
+                        {% if product.stock <= 5 and product.stock > 0 %}
+                        <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                        {% elif product.stock == 0 %}
+                            <p style="color: red;" class="product-alert">Out of Stock!</p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="collection-container">
+            <a href="{% url 'collections' %}?type=Men" class="collection">
+                <img src="{% static 'images/image2.jpg' %}" alt="">
+                <p class="collection-title">mens <br> apparels</p>
+            </a>
+            <a href="{% url 'collections' %}?type=Women" class="collection">
+                <img src="{% static 'images/accessories-women.jpg' %}" alt="">
+                <p class="collection-title">womens <br> apparels</p>
+            </a>
+            <a href="{% url 'collections' %}?type=Accessories" class="collection accessories">
+                <img src="{% static 'images/accessories.jpg' %}" alt="">
+                <p class="collection-title" style="left: 43%;">accessories</p>
+            </a>
+        </section>
+
+
+
+
+        <section class="product">
+            <h2 class="product-category">Best Selling Products</h2>
+            <button class="pre-btn pre-btn1"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <button class="nxt-btn nxt-btn1"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <div class="product-cards-container product-cards-container1">
+                {% for product in best_selling_products %}
+
+                <div class="product-card">
+                    <div class="product-image">
+                        
+                        {% if product.discount > 0 %}
+                            <span class="discount-tag">{{product.discount}}% off</span>
+                        {% endif %}
+                        <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                        
+
+                        {% if user.is_authenticated %}
+                            {% if product not in wishlist_products %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                            {% else %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                        <p class="product-short-des">{{product.type}}'s {{product.category}}</p>
+                        <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.price}}</span>
+                        {% if product.stock <= 5 and product.stock > 0 %}
+                        <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                        {% elif product.stock == 0 %}
+                            <p style="color: red;" class="product-alert">Out of Stock!</p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </section>
+
+
+
+        <section class="product">
+            <h2 class="product-category">Best Discounts</h2>
+            <button class="pre-btn pre-btn2"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <button class="nxt-btn nxt-btn2"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+            <div class="product-cards-container product-cards-container2">
+                {% for product in sale_products %}
+
+                <div class="product-card">
+                    <div class="product-image">
+                        
+                        {% if product.discount > 0 %}
+                            <span class="discount-tag">{{product.discount}}% off</span>
+                        {% endif %}
+                        <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                        
+
+                        {% if user.is_authenticated %}
+                            {% if product not in wishlist_products %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                            {% else %}
+                            <a href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                        <p class="product-short-des">{{product.type}}'s {{product.category}}</p>
+                        <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.price}}</span>
+                        {% if product.stock <= 5 and product.stock > 0 %}
+                        <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                        {% elif product.stock == 0 %}
+                            <p style="color: red;" class="product-alert">Out of Stock!</p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </section>
+
+        {% endblock %}
+
+
+
+
+
+        <footer>
+            <div class="footer-content">
+                <div class="inner-content">CartiQue</div>
+                <div class="footer-ul-container">
+                    <ul class="category">
+                        <li class="category-title">mens</li>
+                        <li><a href="" class="footer-link">shirts</a></li>
+                        <li><a href="" class="footer-link">T-Shirts</a></li>
+                        <li><a href="" class="footer-link">innerwear</a></li>
+                        <li><a href="" class="footer-link">sweatshirts</a></li>
+                        <li><a href="" class="footer-link">sportswear</a></li>
+                        <li><a href="" class="footer-link">jackets</a></li>
+                        <li><a href="" class="footer-link">trousers</a></li>
+                        <li><a href="" class="footer-link">jeans</a></li>
+                    </ul>
+                    <ul class="category">
+                        <li class="category-title">womens</li>
+                        <li><a href="" class="footer-link">shirts</a></li>
+                        <li><a href="" class="footer-link">t-shirts</a></li>
+                        <li><a href="" class="footer-link">innerwear</a></li>
+                        <li><a href="" class="footer-link">sportswear</a></li>
+                        <li><a href="" class="footer-link">jackets</a></li>
+                        <li><a href="" class="footer-link">jeans</a></li>
+                        <li><a href="" class="footer-link">sweatshirts</a></li>
+                        <li><a href="" class="footer-link">pants</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p class="footer-title">about company</p>
+            <p class="footer-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti a harum maxime at cupiditate dolorum quas libero! Facere, quis atque ut praesentium sequi placeat non magni ab id repellendus reprehenderit tenetur consequatur sapiente culpa natus voluptatibus voluptatem explicabo. Officia iure velit neque adipisci, eligendi saepe ducimus quibusdam? Reprehenderit rerum odio ab placeat tempora similique veniam eos quam amet dolor sequi repellendus alias, non dolorum esse iste asperiores! Dolor quod, eius eaque ducimus harum quas officiis sunt nostrum soluta pariatur laborum aspernatur quibusdam suscipit vero. Laboriosam non ad quod maiores labore quidem. Eius ipsa distinctio rem id natus dignissimos. Est, esse?</p>
+            <p class="footer-info">support - info@clothing.com</p>
+            <p class="footer-info">telephone - +91 90676 91363 / +91 86686 54546</p>
+            <div class="footer-contact">
+                <div class="footer-social">
+                    <a href="#" class="social-link">instagram</a>
+                    <a href="#" class="social-link">facebook</a>
+                    <a href="#" class="social-link">twitter</a>
+                </div>
+            </div>
+            <p class="footer-policy">
+                © 2021 <span>Harsh Jagtap</span>. All Rights Reserved</p>
+        </footer>
+
+        <script src="{% static 'javascript/function.js' %}"></script>
+    </body>
+</html>

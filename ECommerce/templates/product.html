@@ -1,0 +1,201 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block style %}
+<style>
+.pro-btn:hover {
+    cursor: pointer;
+}
+
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <section class="product-details">
+        <img style="width: 400px;" src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="image-sliders">
+            
+        <div class="details">
+            <h2 class="product-brand">{{product.brand}}</h2>
+            <p class="product-short-des-page">{{product.type}}'s {{product.category}}</p>
+            <span class="product-price"><span>&#8377;</span>{{dis_price}}</span>
+            {% if product.discount %}
+                <span class="product-actual-price"><span>&#8377;</span>{{product.price}}</span>
+                <span class="product-discount">( {{product.discount}}% off )</span>
+            {% endif %}
+            
+            {% if product.stock <= 5 and product.stock > 0 %}
+                <h3 style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</h3>    
+            {% elif product.stock == 0 %}
+                <h3 style="color: red;" class="product-alert">Out of Stock!</h3>
+            {% endif %}
+            
+            <p class="product-sub-heading" style="margin-top: 20px;">select size</p>
+            <input type="radio" name="size" value="xs" hidden id="xs-size">
+            <label for="xs-size" class="size-radio-btn">xs</label>
+            <input type="radio" name="size" value="s" hidden id="s-size">
+            <label for="s-size" class="size-radio-btn check">s</label>
+            <input type="radio" name="size" value="m" hidden id="m-size">
+            <label for="m-size" class="size-radio-btn">m</label>
+            <input type="radio" name="size" value="l" hidden id="l-size">
+            <label for="l-size" class="size-radio-btn">l</label>
+            <input type="radio" name="size" value="xl" hidden id="xl-size">
+            <label for="xl-size" class="size-radio-btn">xl</label>
+            <div class="buttons">
+                {% if user.is_authenticated %}
+                    {% if product not in cart_products %}
+                        {% if product.stock == 0 %}
+                            <button type="submit" style="background-color: rgba(164, 164, 164, 0.75);" class="btn cart-btn">add to cart</button>
+                        {% else %}
+                            <a class="pro-btn" href="{% url 'cart' %}?p={{product.id}}&q=add"><button type="submit" class="btn cart-btn">add to cart</button></a>
+                        {% endif %}
+                        
+                    {% else %}
+                        <a class="pro-btn" href="{% url 'cart' %}?p={{product.id}}&q=remove"><button type="submit" class="btn cart-btn">remove from cart</button></a>
+                    {% endif %}
+
+                    {% if product not in wishlist_products %}
+                        <a class="pro-btn" href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button type="submit" class="btn wishlist-btn">add to wishlist</button></a>
+                    {% else %}
+                        <a class="pro-btn" href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button type="submit" class="btn wishlist-btn">remove from wishlist</button></a>
+                    {% endif %}
+                {% else %}
+
+                        <a href="{% url 'login' %}"><button type="submit" class="btn cart-btn">add to cart</button></a>
+                        <a href="{% url 'login' %}"><button type="submit" class="btn wishlist-btn">add to wishlist</button></a>        
+                
+                {% endif %}
+
+            
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-des">
+        <h2 class="heading">Description</h2>
+        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aut deserunt officiis quod libero rerum nisi, dignissimos, sequi, voluptas omnis maxime explicabo natus. Officia repellat ex numquam temporibus alias velit ratione similique perferendis quam, distinctio ea debitis quasi, optio esse consequatur blanditiis sunt. Natus necessitatibus sed molestiae dolorem impedit optio explicabo, cum deleniti dolores. Cumque, consequuntur. Illo tempora ipsum expedita doloribus accusantium, deleniti enim tenetur molestiae consequuntur culpa magnam distinctio voluptates nostrum quaerat est rerum omnis quibusdam vel voluptatem. Fugiat laudantium magnam consectetur! Eveniet, voluptates suscipit laborum deserunt mollitia nesciunt ut nemo fuga quisquam similique, illo quae aliquid, ad natus. Reiciendis mollitia enim eius quas odit dolor voluptatibus veniam! Vel, repellendus hic, dolores neque ad, beatae assumenda esse doloribus pariatur eum quam similique. Repudiandae ratione similique blanditiis libero molestias tenetur laborum maiores nobis, quisquam repellat animi, deserunt exercitationem consectetur aliquam possimus! Deleniti ratione quasi delectus odit, dolorum ducimus dolor at cumque maiores. Et minus, quae corporis, quisquam debitis voluptas similique recusandae obcaecati soluta quis ex? Eveniet ut enim deserunt, nulla, minus optio, nemo officiis assumenda earum beatae ad dicta sequi! Consequatur, nihil quae dolorum quis blanditiis ullam, magni, iusto amet assumenda sapiente odit eos ipsum dignissimos cum. Quaerat, officiis molestiae.</p>
+    </section>
+
+    <section class="detail-des review-section" style="margin-top: 90px; text-transform: none;">
+        <h2 class="heading">Reviews</h2>
+        <div class="review-section">
+            <div class="review-form" style="margin-bottom: 20px;">
+                <h3 style="display: inline;">Write a Review...</h3>
+                <form action="" method="post" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <input style="width: 400px; height: 30px;" type="text" name="product_review" placeholder="Write your Review here..">
+                </form>
+            </div>
+            
+            <div class="review-container">
+                {% if reviews_count > 0 %}
+                    <p>Total <b>{{reviews_count}}</b> people have reviewed</p>
+                {% else %}
+                    <p>No reviews yet...</p>
+                {% endif %}
+                {% for review in reviews %}
+                    <div class="review" style="margin-bottom: 10px;">
+                        <h4 style="display: inline; margin-right: 10px;">{{review.user.first_name}} {{review.user.last_name}}</h4><h4 style="display: inline; margin-right: 30px; text-transform: lowercase;">@{{review.user.username}}</h4><span style="text-transform: lowercase;">- {{review.created | timesince}} ago</span>
+                        <p>{{review.body}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>  
+
+    <section class="product">
+        <h2 class="product-category">Similar Brand Products</h2>
+        <button class="pre-btn"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+        <button class="nxt-btn"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+        <div class="product-cards-container" style="height: 420px;">
+            {% for product in similar_brand_products %}
+
+            <div class="product-card">
+                <div class="product-image">
+                    
+                    {% if product.discount > 0 %}
+                        <span class="discount-tag">{{product.discount}}% off</span>
+                    {% endif %}
+                    <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                    
+
+                    {% if user.is_authenticated %}
+                        {% if product not in wishlist_products %}
+                        <a href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                        {% else %}
+                        <a href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                    {% endif %}
+                    
+                </div>
+                <div class="product-info">
+                    <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                    <p class="product-short-des">{{product.type}}'s {{product.category}}</p>
+
+                    {% if product.discount == 0 %}
+                    <span class="price" style="text-decoration: none;"><span>&#8377;</span>{{product.price}}</span>
+                    {% else %}
+                    <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.final_price}}</span>
+                    {% endif %}
+
+                    {% if product.stock <= 5 and product.stock > 0 %}
+                    <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                    {% elif product.stock == 0 %}
+                        <p style="color: red;" class="product-alert">Out of Stock!</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="product">
+        <h2 class="product-category">Similar Category Products</h2>
+        <button class="pre-btn pre-btn3"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+        <button class="nxt-btn nxt-btn3"><img class="arrow" src="{% static 'images/arrow-icon.png' %}" alt=""></button>
+        <div class="product-cards-container product-cards-container3" style="height: 420px;">
+            {% for product in similar_category_products %}
+
+            <div class="product-card">
+                <div class="product-image">
+                    
+                    {% if product.discount > 0 %}
+                        <span class="discount-tag">{{product.discount}}% off</span>
+                    {% endif %}
+                    <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                    
+
+                    {% if user.is_authenticated %}
+                        {% if product not in wishlist_products %}
+                        <a href="{% url 'user' user.id %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                        {% else %}
+                        <a href="{% url 'user' user.id %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                    {% endif %}
+                    
+                </div>
+                <div class="product-info">
+                    <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                    <p class="product-short-des">{{product.type}}'s {{product.category}}</p>
+                    <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.price}}</span>
+                    {% if product.stock <= 5 and product.stock > 0 %}
+                    <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                    {% elif product.stock == 0 %}
+                        <p style="color: red;" class="product-alert">Out of Stock!</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

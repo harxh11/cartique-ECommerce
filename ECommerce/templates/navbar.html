@@ -1,0 +1,114 @@
+{% load static %}
+<html>
+    <head>
+        <style>
+            .icons {
+                border-radius: 50%;
+                padding: 7px;
+                transition: 0.3s ease;
+            }
+
+            .icons:hover {
+                background-color: #d5a881;
+            }
+        </style>
+
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="nav">
+                <div>
+                    <a href="{% url 'home' %}" style="text-decoration: none;"><div class="logo">CartiQue</div></a>
+                </div>
+                <div style="height: 100%; margin-top: 9px; display: flex; justify-content: center; align-items: center; font-family: 'Roboto', sans-serif;">
+                    <form action="{% url 'collections' %}" style="display: flex; margin-right: 20px;" class="form">
+                        <input type="text" name="q" placeholder="Search Brands, Products...." style="color: #a9a9a9; width: 400px; margin-right: 5px;" class="search-box">
+                        <button type="submit" class="search-btn">Search</button>
+                    </form>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'wishlist' %}"><img style="height: 30px; margin-right: 10px;" class="icons" src="{% static 'images/icons/wishlist.png' %}" alt=""></a>
+                        <a href="{% url 'cart' %}"><img style="height: 30px; margin-right: 20px;" class="icons" src="{% static 'images/icons/shopping-cart.png' %}" alt=""></a>
+                        <a style="color: white; margin-right: 10px;" href="{% url 'user' user.id %}"><span style="text-transform: capitalize;">Hello {{user.first_name}},</span><a href="{% url 'logout' %}" style="color: white; display: inline; margin-right: 20px;">Logout</a></a>
+                    
+                        {% else %}
+                        <a href="{% url 'login' %}"><img style="height: 30px; margin-right: 10px;" class="icons" src="{% static 'images/icons/wishlist.png' %}" alt=""></a>
+                        <a href="{% url 'login' %}"><img style="height: 30px; margin-right: 20px;" class="icons" src="{% static 'images/icons/shopping-cart.png' %}" alt=""></a>
+                        <a style="color: white; margin-right: 10px;" href="{% url 'login' %}">Login/Signup</a>
+                    {% endif %}    
+
+                </div>
+                <!-- <div class="nav-items">
+                    <div class="search" style="width: 700px; margin-left: 100px;">
+                        <form style="display: inline;" action="{% url 'collections' %}" method="get"><input type="text" name="q" class="search-box" placeholder="Search Brand, Product"></form>
+                        <button class="search-btn">Search</button>                
+                    </div>
+                </div>
+                <div class="nav-links" style="margin: 15px;">
+                    <a href=""><img class="icons" style="height: 27px; position: relative; top: 5px; margin-right: 20px;" src="{% static 'images/icons/wishlist.png' %}" alt=""></a>
+                    <a href=""><img class="icons" style="height: 27px; position: relative; top: 5px;" src="{% static 'images/icons/shopping-cart.png' %}" alt=""></a>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'user' user.id %}" class="login"><span style="text-transform: capitalize;">Hello {{user.first_name}},</span><a href="{% url 'logout' %}" style="color: white; display: inline;">Logout</a></a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="login">Login/Signup</a>
+                    {% endif %}
+                </div> -->
+            </div>
+        
+        
+        <ul class="list">
+            <a class="list-item" href="{% url 'home' %}"><span class="list-main-item">home</span>
+                <ul class="list-child">
+                    <li>company</li>
+                    <li>information</li>
+                    <li>customer care</li>
+                    <li>contact us</li>
+                    <li>about us</li>
+                </ul>
+            </a>
+            <a class="list-item" href="{% url 'collections' %}">
+                <span class="list-main-item">men</span>
+                <ul class="list-child">
+                    <li>apparels</li>
+                    <li>shirts</li>
+                    <li>t-shirts</li>
+                    <li>trousers</li>
+                    <li>innerwear</li>
+                    <li>sportswear</li>
+                </ul>
+            </a>
+            <a class="list-item" href="{% url 'collections' %}"><span class="list-main-item">women</span>
+                <ul class="list-child">
+                    <li>apparels</li>
+                    <li>shirts</li>
+                    <li>t-shirts</li>
+                    <li>trousers</li>
+                    <li>innerwear</li>
+                    <li>sportswear</li>
+                </ul>
+            </a>
+            <a class="list-item" href="{% url 'collections' %}"><span class="list-main-item">kids</span>
+                <ul class="list-child">
+                    <li>apparels</li>
+                    <li>shirts</li>
+                    <li>t-shirts</li>
+                    <li>trousers</li>
+                    <li>innerwear</li>
+                    <li>sportswear</li>
+                </ul>
+            </a>
+            <a class="list-item" href="{% url 'collections' %}"><span class="list-main-item">accessories</span>
+                <ul class="list-child">
+                    <li>socks</li>
+                    <li>caps</li>
+                    <li>bags</li>
+                    <li>belts</li>
+                    <li>shoes</li>
+                    <li>perfumes</li>
+                </ul>
+            </a>
+        </ul>
+        </div>
+        
+    </body>
+</html>

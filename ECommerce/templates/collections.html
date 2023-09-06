@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div style="display: grid; grid-template-columns: 0.7fr 3.3fr; font-family: 'Roboto', sans-serif;">
+    <div style="border-right: 1px solid black; margin: 20px;">
+        <h2 style="color: #764d2a;">Sorts / Filters</h2>
+
+        <hr>
+        
+        <div>
+            <h3>Types: </h3>
+            <ul>
+                {% for type in types %}
+                    <a style="color: black; text-decoration: none;" href="{% url 'collections' %}?type={{type.name}}"><li>{{type.name}}</li></a>
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Categories: </h3>
+            <ul>
+                {% for category in categories %}
+
+                    <a style="color: black; text-decoration: none;" href="{% url 'collections' %}?category={{category.name}}"><li>{{category.name}}</li></a>
+
+                {% endfor %}
+            </ul>
+        </div>
+        <div>
+            <h3>Brands: </h3>
+            <ul>
+                {% for brand in brands %}
+
+                    <a style="color: black; text-decoration: none;" href="{% url 'collections' %}?brand={{brand.name}}"><li>{{brand.name}}</li></a>
+
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    
+    
+    <div style="margin: 20px;">
+        <h1 style="color: #764d2a;">Products</h1>
+        <h4>Found <b>'{{product_count}}'</b> products for the given search...</h4>
+        <div style="display: inline-grid; grid-template-columns: auto auto auto auto; grid-column-gap: 10px; grid-row-gap: 20px;">
+            {% for product in products %}
+
+            
+            <div class="product-card">
+                <div class="product-image">
+                    
+                    {% if product.discount > 0 %}
+                        <span class="discount-tag">{{product.discount}}% off</span>
+                    {% endif %}
+                    <img src="{% static 'images/products/product-' %}{{product.type}}-{{product.category}}-{{product.id}}.jpg" class="product-thumb" alt="">
+                    
+
+                    {% if user.is_authenticated %}
+                        {% if product not in wishlist_products %}
+                        <a href="{% url 'wishlist' %}?p={{product.id}}&q=add"><button class="card-btn">add to wishlist</button></a>
+                        {% else %}
+                        <a href="{% url 'wishlist' %}?p={{product.id}}&q=remove"><button class="card-btn">remove from wishlist</button></a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'login' %}"><button class="card-btn">add to wishlist</button></a>
+                    {% endif %}
+                    
+                </div>
+                <div class="product-info">
+                    <h3 class="product-brand"><a href="{% url 'product' product.id %}" style="color: black; text-decoration: none;">{{product.brand}}</a></h3>
+                    <p class="product-short-des">{{product.type}} {{product.category}}</p>
+                    <span class="price"><span>&#8377;</span>{{product.price}}</span><span class="actual-price"><span>&#8377;</span>{{product.price}}</span>
+                    {% if product.stock <= 5 and product.stock > 0 %}
+                    <p style="color: red;" class="product-alert">Hurry up only {{product.stock}} left!</p>    
+                    {% elif product.stock == 0 %}
+                        <p style="color: red;" class="product-alert">Out of Stock!</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+
+
+{% block content %}
+
+{% for message in messages %}
+
+    <p style="color: red;">{{message}}</p>
+
+{% endfor %}
+
+<div class="login-container" style="display: flex; justify-content: center; align-items: center; padding: 50px; margin-left: auto; margin-right: auto; align-items: center;">
+    <div>
+        <form action="" method="post" style="margin-bottom: 30px; text-align: center;">
+            {% csrf_token %}
+            <label for="email" style="margin-bottom: 20px;">Username: </label>
+            <input type="text" name="email" placeholder="xyz@gmail.com" style="margin-bottom: 20px;"><br>
+            <label for="password" style="margin-bottom: 20px;">Password: </label>
+            <input type="password" name="password" placeholder="......." style="margin-bottom: 20px;"><br>
+            <button type="submit" style="padding: 10px; display: block; margin: auto;">Submit</button>
+        </form>
+
+        <p>Dont have an account? <a href="{% url 'register' %}">Signup</a></p>
+    </div>
+</div>
+
+
+{% endblock %}

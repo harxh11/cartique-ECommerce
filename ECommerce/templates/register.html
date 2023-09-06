@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+ 
+{% block content %}
+    <ul>
+        {% for message in messages %}
+            <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    
+    
+    <div style="margin: 20px; padding: 20px;">
+        <div>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" style="padding: 5px 10px;">Submit</button>
+            </form>
+        </div>
+        <hr style="margin: 20px 0;">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+
+{% endblock %}

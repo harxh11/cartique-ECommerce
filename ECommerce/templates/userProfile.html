@@ -1,0 +1,136 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+<!-- Title -->
+{% block title %} CartiQue Online - My Account {% endblock %}
+
+
+
+<!-- CSS Links -->
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/userProfile.css' %}">
+
+{% endblock %}
+
+
+
+
+<!-- Main Content -->
+{% block content %}
+<div class="container">
+    <div class="account-section">
+        <div class="heading-section">
+            <i><h2>Dashboard</h2></i>
+            <i><h1>My Account</h1></i>
+            <u><a href="{% url 'logout' %}">LOGOUT</a></u>
+        </div>
+
+        <div class="user-info">
+            <div class="user-left">
+                <div class="info-card">
+                    <div class="upper-section">
+                        <div>
+                            <img class="icon" src="{% static 'images/icons/user.png' %}" alt=""><h3>PROFILE</h3>
+                        </div>
+                        <div>
+                            <a href="{% url 'editProfile' %}">Edit Profile</a>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="bottom-section">
+                        <table>
+                            <tr><td><p><b>Name</b></p></td><td><p>{{user.first_name}} {{user.last_name}}</p></td></tr>
+                            <tr><td><p><b>Email</b></p></td><td><p>{{user.email}}</p></td></tr>
+                            <tr><td><p><b>Username</b></p></td><td><p>@{{user.username}}</p></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="user-right">
+                <div class="info-card">
+                    <div class="upper-section">
+                        <div>
+                            <img class="icon" src="{% static 'images/icons/location.png' %}" alt=""><h3>ADDRESS BOOK</h3>
+                        </div>
+                        <div>
+                            <a href="">Edit Address</a>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="bottom-section">
+                        <table>
+                            <tr><td>{{user.first_name}} {{user.last_name}}</td></tr>
+                            <tr><td>Harsh Building, (in front of Rhythm Auto)</td></tr>
+                            <tr><td>Buchade Nagar, Marunji, Pune-57</td></tr>
+                            <tr><td>MH 411057</td></tr>
+                            <tr><td>IN</td></tr>
+                            <tr><td>+91 9067691363</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="user-info">
+            <div class="user-left">
+                <div class="info-card">
+                    <div class="upper-section">
+                        <div>
+                            <img class="icon" src="{% static 'images/icons/contact-mail.png' %}" alt=""><h3>CONTACT INFORMATION</h3>
+                        </div>
+                        <div>
+                            <a href="">Edit Contact</a>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="bottom-section">
+                        <table>
+                            <tr><td><p><b>Contact Number</b></p></td><td><p>+91 9067691363</p></td></tr>
+                            <tr><td><p><b>Contact Number 2</b></p></td><td><p>+91 8668654546</p></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="user-right">
+                <div class="info-card">
+                    <div class="upper-section">
+                        <div>
+                            <img class="icon" src="{% static 'images/icons/padlock.png' %}" alt=""><h3>PASSWORD</h3>
+                        </div>
+                        <div>
+                            <a href="">Change Password</a>
+                        </div>
+                    </div>
+
+                    <hr>
+                    
+                    <div class="bottom-section">
+                        <table>
+                            <tr><td><p><b>Password</b></p></td><td><p>**********</p></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
