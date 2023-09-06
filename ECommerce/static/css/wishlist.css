@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.main {
+    margin: 30px 250px;
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 10px;
+    padding: 25px 35px;
+}
+
+.main .upper-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 15px;
+    color: #905624;
+}
+
+.main hr{
+    border-bottom: 0px;
+    margin-top: 10px;
+    border-top: 2px solid gray;
+    opacity: 60%;
+}
+
+.pro-card {
+    width: 100%;
+    display: flex;
+    margin-bottom: 10px;
+    padding: 20px 0;
+}
+
+.pro-image {
+    margin: 0 30px;
+}
+
+.pro-image img {
+    width: 220px;
+    height: 270px;
+}
+
+.pro-details {
+    padding: 10px 0;
+}
+
+.pro-details h2 {
+    margin-bottom: 10px;
+}
+
+.pro-details p{ 
+    margin-bottom: 10px;
+}
+
+.links a {
+    margin-right: 10px;
+    color: black;
+}
+
+.pro-details .links {
+    padding-top: 15px;
+
+}
+
+.empty-alert {
+    margin: 20px auto;
+}
+
+
+.checkout-btn:hover {
+    cursor: pointer;
+    background-color: #905624;
+    transition: 0.5s;
+}
